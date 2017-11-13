@@ -1,0 +1,81 @@
+﻿@model GameMod.Models.BaseInfoViewModel
+@{
+    ViewBag.Title = "Upload";
+}
+
+<div class="card step-progress">
+    <div class="step-slider">
+        <div data-id="step1" class="step-slider-item"></div>
+        <div data-id="step2" class="step-slider-item"></div>
+        <div data-id="step3" class="step-slider-item"></div>
+        <div data-id="step4" class="step-slider-item"></div>
+    </div>
+    <div class="step-content">
+        <div id="step1" class="step-content-body">
+            <label for="Game">Game:</label>
+            @Html.DropDownListFor(m => m.Games, new SelectList(Model.Games, "Id", "Name"), new { @class = "form-control" })
+
+            <label for="Category">Category:</label>
+            @Html.DropDownListFor(m => m.Categories, new SelectList(Model.Categories, "Id", "Name"), new { @class = "form-control" })
+
+            <label for="name">Name:</label>
+            <input type="text" class="form-control required-entry" id="Name">
+
+            <label for="Description">Description:</label>
+            <textarea class="form-control required-entry" rows="5" id="Description"></textarea>
+
+            <label for="Credits">Credits:</label>
+            <textarea class="form-control" rows="5" id="Credits"></textarea>
+
+            <label for="video">Video URL:</label>
+            <input type="text" class="form-control" id="VideoURL" />
+        </div>
+
+        <div id="step2" class="step-content-body out">
+            <label class="btn btn-primary" id="uploadBtn" for="my-file-selector">
+                <input id="my-file-selector" type="file" style="display:none"
+                       onchange="$('#upload-file-info').html(this.files[0].name)">
+                Upload File
+            </label>
+            <br />
+            <span class='label label-info' id="upload-file-info"></span>
+        </div>
+
+        <div id="step3" class="step-content-body out">
+            <div class="jumbotron">
+                <form action="~/Home/Upload" class="dropzone" id="dropzoneJsForm" style="background-color:#00BFFF"></form>
+                <button id="submit-all">
+                    Submit All Files
+                </button>
+            </div>
+        </div>
+
+        <div id="step4" class="step-content-body out">
+            Step 4
+        </div>
+
+        <div id="stepLast" class="step-content-body out">Completed</div>
+
+        <div class="step-content-foot">
+            <button type="button" class="active prev" name="prev">Prev</button>
+            <button type="button" class="active next" id="nextBtn" name="next">Next</button>
+            <button type="button" class="active out" name="finish">Finish</button>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/Scripts/dropzone/dropzone.min.js"></script>
+    <script type="text/javascript">
+
+        Dropzone.options.dropzoneForm ={
+                init: function () {
+                    this.on("complete", function (data) {
+                        //var res = eval('(' + data.xhr.responseText + ')');
+                        var res = JSON.parse(data.xhr.responseText);
+                    });
+                }
+            };
+    </script>
+}

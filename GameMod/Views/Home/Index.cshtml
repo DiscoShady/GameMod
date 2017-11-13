@@ -1,0 +1,171 @@
+﻿@model IEnumerable<GameMod.Models.Mod>
+@using GameMod.Extensions;
+@using Microsoft.AspNet.Identity;
+@{
+    ViewBag.Title = "Home Page";
+}
+<div class="container">
+
+    <section class="p-t-30">
+        <div class="toolbar-custom">
+            <form method="post" class="float-left cold-12 col-sm-6 p-l-0 p-r-10">
+                <div class="form-group input-icon-right">
+                    <i class="fa fa-search"></i>
+                    <input type="text" class="form-control search-game" placeholder="Search Mods...">
+                </div>
+            </form>
+            <div class="dropdown float-left">
+                <button class="btn btn-default" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    Stuff
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <ul class="dropdown-menu">
+                    <li class="active">
+                        <a href="#">All Platform</a>
+                    </li>
+                    <li>
+                        <a href="#">Playstation 4</a>
+                    </li>
+                    <li>
+                        <a href="#">Xbox One</a>
+                    </li>
+                    <li>
+                        <a href="#">Origin</a>
+                    </li>
+                    <li>
+                        <a href="#">Steam</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="btn-group float-right m-l-5 hidden-sm-down" role="group">
+                <a class="btn btn-default btn-icon" href="#" role="button">
+                    <i class="fa fa-th-large"></i>
+                </a>
+                <a class="btn btn-default btn-icon" href="#" role="button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+            <div class="dropdown float-right sort">
+                <button class="btn btn-default" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    Date Added
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right ">
+                    <li class="active">
+                        <a href="#">Date Added</a>
+                    </li>
+                    <li>
+                        <a href="#">Popular</a>
+                    </li>
+                    <li>
+                        <a href="#">Newest</a>
+                    </li>
+                    <li>
+                        <a href="#">Oldest</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <div class="row">
+        @foreach (var post in Model) {
+
+
+            <div class="col-12 col-sm-6 col-md-4">
+                <div class="card card-lg">
+                    <div class="card-img">
+                        <a href="game-post.html">
+                            <img src="https://yakuthemes.com/gameforest/img/game/game-5.jpg" class="card-img-top" alt="Assassin's Creed Syndicate">
+                        </a>
+                        @*<div id="views"></div>*@
+                        <div class="meta-bar">
+                            <div id="views"><i class="material-icons">visibility</i><span>120</span></div>
+                            <div id="download"><i class="material-icons">file_download</i><span>50</span></div>
+                            <div id="author"><i class="material-icons">person</i><span><a href="#">Versay</a></span></div>
+                        </div>
+
+
+                        <div class="card-likes" id="@post.Id">
+                            <div class='middle-wrapper'>
+                                <div class='like-wrapper'>
+                                    <a class='like-button'>
+                                        <span class='like-icon submit'>
+                                            <div class='heart-animation-1'></div>
+                                            <div class='heart-animation-2'></div>
+                                        </span>
+
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="card-block">
+                        <h4 class="card-title">
+                            <a href="http://www.google.com/Home/Mod/1">@post.Name</a>
+                        </h4>
+                        <div class="card-meta">
+                            <span>June 13, 2017</span>
+                        </div>
+                        <p class="card-text">Sorry, but i don't know what to type here tbh.</p>
+                    </div>
+                </div>
+            </div>
+
+        }
+
+
+    </div>
+</div>
+
+
+@section Scripts{
+
+    @if (Request.IsAuthenticated) {
+        <script>
+            $(document).ready(function () {
+                $(".card-likes").click(function () {
+                    if (!$(this).hasClass("liked")) {
+            var post_id = this.id;
+                $.ajax({
+                    url: '@Url.Action("Like", "Home")',
+                    type: 'POST',
+                    data: JSON.stringify({ PostId: post_id }),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+
+                    },
+                    error: function () {
+                        alert("error");
+                    }
+            });
+                    }
+                    });
+
+        });
+        </script>
+    }
+
+}
+
+
+
+@*@foreach (var item in Model) {
+        <div class="card">
+            <img src="http://via.placeholder.com/150x100" alt="Alternate Text" />
+            <h4><a href="#" class="mod-link">@item.Name</a></h4>
+            @if (Convert.ToInt32(Helper.HowManyDaysAgo(item.DateAdded).ToString("d")) == 1) {
+                <p class="meta">by <a href="#">Patrick</a> &bull; updated yesterday</p>
+            } else if (Convert.ToInt32(Helper.HowManyDaysAgo(item.DateAdded).ToString("d")) == 0) {
+                <p class="meta">by <a href="#">Patrick</a> &bull; updated today</p>
+            } else {
+                <p class="meta">by <a href="#">Patrick</a> &bull; updated @Helper.HowManyDaysAgo(item.DateAdded).ToString("d") days ago</p>
+            }
+
+
+            <p class="tagline">@item.Description</p>
+        </div>
+
+    }*@

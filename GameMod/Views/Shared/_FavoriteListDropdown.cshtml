@@ -1,0 +1,29 @@
+﻿@model IEnumerable<GameMod.Models.FavoriteList>
+
+<div class="modal-dialog">
+    @Html.ValidationSummary(true);
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Modal Header</h4>
+        </div>
+        <div class="modal-body">
+            <select name="listbox" id="listbox" class="form-control">
+                @foreach (var item in Model) {
+
+                    <option value="@item.Id">
+                        @item.Name
+                    </option>
+                }
+            </select>
+
+
+
+        </div>
+        <div class="modal-footer">
+            <input type="submit" value="Add" id="submit" class="btn btn-success" />
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+</div>
+

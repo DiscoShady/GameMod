@@ -1,0 +1,19 @@
+﻿@model IEnumerable<GameMod.Models.FavoriteList>
+@{
+    ViewBag.Title = "Lists";
+}
+
+<h2>Lists</h2>
+<ul>
+    @foreach (var item in Model) {
+        if (item.Public == true) {
+            <li><a href="List/@item.Id">@item.Name | Public</a></li>
+        } else {
+            <li><a href="List/@item.Id">@item.Name | Not Public</a></li>
+        }
+
+    }
+
+</ul>
+
+@Html.ActionLink("Create new List?", "CreateList")
